@@ -1,4 +1,4 @@
-import { mockCompanies } from "../../../lib/mockData";
+import { mockCompanies } from "@/lib/mockData";
 import { notFound } from "next/navigation";
 
 export default async function CompanyDetailPage({

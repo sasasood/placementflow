@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { mockCompanies } from "../../lib/mockData";
+import { mockCompanies } from "@/lib/mockData";
 
 export default function CompaniesPage() {
   return (

@@ -1,4 +1,4 @@
-import { mockDeadlines } from "../../lib/mockData";
+import { mockDeadlines } from "@/lib/mockData";
 
 export default function DashboardPage() {
   const totalCompanies = mockDeadlines.length;

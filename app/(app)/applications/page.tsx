@@ -1,4 +1,4 @@
-import { mockApplications } from "../../lib/mockData";
+import { mockApplications } from "@/lib/mockData";
 
 export default function ApplicationsPage() {
   return (
