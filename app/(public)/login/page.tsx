@@ -1,16 +1,34 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Input from "@/components/Input";
+import { apiFetch, saveToken } from "@/lib/api";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    console.log({ email, password });
-    alert(`Logging in as ${email}`);
+    setError("");
+    setLoading(true);
+
+    try {
+      const data = await apiFetch<{ access_token: string }>("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+      saveToken(data.access_token);
+      router.push("/dashboard");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Login failed");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -29,11 +47,13 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <button
           type="submit"
-          className="bg-black text-white rounded px-4 py-2"
+          disabled={loading}
+          className="bg-black text-white rounded px-4 py-2 disabled:opacity-50"
         >
-          Login
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </main>
